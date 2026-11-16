@@ -1,1 +1,51 @@
 
+#include <stdio.h>
+
+int main(void)
+{
+    unsigned long long watt_hours;
+    unsigned long long rate;
+    unsigned long long charge;
+    int peak;
+
+    FILE *fp = fopen("tariff.txt", "r");
+
+    if (fp == NULL)
+    {
+        printf("Tariff file not found\n");
+        return 1;
+    }
+
+    if (fscanf(fp, "%llu", &rate) != 1)
+    {
+        printf("Invalid tariff\n");
+        fclose(fp);
+        return 1;
+    }
+
+    fclose(fp);
+
+    printf("Enter energy in watt-hours: ");
+    if (scanf("%llu", &watt_hours) != 1)
+        return 1;
+
+    printf("Peak hour? (1=Yes, 0=No): ");
+    if (scanf("%d", &peak) != 1 ||
+        (peak != 0 && peak != 1))
+        return 1;
+
+    /* Convert watt-hours to paise */
+    charge = (watt_hours * rate + 500) / 1000;
+
+    /* Add 20 percent during peak hours */
+    if (peak)
+        charge = (charge * 120 + 50) / 100;
+
+    printf("Energy consumed = %llu Wh\n", watt_hours);
+
+    printf("Electricity charge = Rs %llu.%02llu\n",
+           charge / 100, charge % 100);
+
+    return 0;
+}
+
