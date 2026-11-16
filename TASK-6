@@ -1,1 +1,30 @@
 
+
+#include <stdio.h>
+
+int main(void)
+{
+    int units;
+    long paise;
+
+    printf("Enter units consumed: ");
+
+    if (scanf("%d", &units) != 1 || units < 0)
+    {
+        printf("Invalid input\n");
+        return 1;
+    }
+
+    paise = 5000;
+
+    if (units > 200)
+        paise += (units - 200) * 450;
+
+    if (units > 100)
+        paise += ((units > 200) ? 100 : units - 100) * 225;
+
+    printf("Total Bill = Rs %ld.%02ld\n",
+           paise / 100, paise % 100);
+
+    return 0;
+}
