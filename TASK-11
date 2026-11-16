@@ -1,1 +1,54 @@
 
+#include <stdio.h>
+#include <limits.h>
+
+typedef unsigned short meter_t;
+
+#define FIXED_CHARGE 5000LL
+#define RATE2 225LL
+#define RATE3 450LL
+
+unsigned int get_units(meter_t old_reading,
+                       meter_t new_reading)
+{
+    return (meter_t)(new_reading - old_reading);
+}
+
+long long calculate_bill(unsigned int units)
+{
+    long long bill = FIXED_CHARGE;
+
+    if (units > 200)
+        bill += (long long)(units - 200) * RATE3;
+
+    if (units > 100)
+    {
+        unsigned int slab =
+            units > 200 ? 100 : units - 100;
+
+        bill += (long long)slab * RATE2;
+    }
+
+    return bill;
+}
+
+int main(void)
+{
+    meter_t old_reading = 1200;
+    meter_t new_reading = 1350;
+
+    unsigned int units = get_units(old_reading,
+                                   new_reading);
+
+    long long bill = calculate_bill(units);
+
+    printf("Units = %u\n", units);
+    printf("Final Bill = Rs %lld.%02lld\n",
+           bill / 100, bill % 100);
+
+    printf("Maximum meter reading = %u\n",
+           (unsigned)USHRT_MAX);
+
+    return 0;
+}
+
