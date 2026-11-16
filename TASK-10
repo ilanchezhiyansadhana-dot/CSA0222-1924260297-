@@ -1,1 +1,28 @@
 
+#include <stdio.h>
+
+int main(void)
+{
+    int counts[] = {4000, 60000, 800000};
+
+    double float_total;
+    long long paise_total;
+
+    for (int i = 0; i < 3; i++)
+    {
+        float_total = 162.50 * counts[i];
+        paise_total = 16250LL * counts[i];
+
+        printf("\nHouseholds = %d\n", counts[i]);
+
+        printf("Float total = Rs %.2f\n",
+               float_total);
+
+        printf("Paise total = Rs %lld.%02lld\n",
+               paise_total / 100,
+               paise_total % 100);
+    }
+
+    return 0;
+}
+
