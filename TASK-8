@@ -1,1 +1,13 @@
 
+
+#include <stdio.h>
+
+#define FIXED 5000
+
+int main(void)
+{
+    printf("Electricity Bill Program\n");
+    printf("Fixed Charge = Rs %d\n", FIXED);
+
+    return 0;
+}
