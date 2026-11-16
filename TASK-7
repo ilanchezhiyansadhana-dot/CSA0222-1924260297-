@@ -1,1 +1,16 @@
 
+
+#include <stdio.h>
+
+int main(void)
+{
+    int a = 5, b = 2;
+    float x = 5.0f;
+    float y = 2.0f;
+
+    printf("Integer division = %d\n", a / b);
+    printf("Float division = %.2f\n", x / y);
+    printf("Type conversion = %.2f\n", (float)a / b);
+
+    return 0;
+}
