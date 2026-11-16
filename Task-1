@@ -1,1 +1,70 @@
 
+#include <stdio.h>
+
+#define FIXED_CHARGE 5000L
+#define RATE1 0L
+#define RATE2 225L
+#define RATE3 450L
+
+int main(void)
+{
+    int household_no;
+    int previous, current, units;
+    long energy_charge, total;
+
+    printf("Enter household number: ");
+    if (scanf("%d", &household_no) != 1)
+    {
+        printf("Invalid input\n");
+        return 1;
+    }
+
+    printf("Enter previous reading: ");
+    if (scanf("%d", &previous) != 1)
+    {
+        printf("Invalid input\n");
+        return 1;
+    }
+
+    printf("Enter current reading: ");
+    if (scanf("%d", &current) != 1)
+    {
+        printf("Invalid input\n");
+        return 1;
+    }
+
+    if (previous < 0 || previous > 65535 ||
+        current < 0 || current > 65535)
+    {
+        printf("Invalid meter reading\n");
+        return 1;
+    }
+
+    units = (current - previous + 65536) % 65536;
+
+    if (units <= 100)
+        energy_charge = units * RATE1;
+    else if (units <= 200)
+        energy_charge = 100 * RATE1 +
+                        (units - 100) * RATE2;
+    else
+        energy_charge = 100 * RATE1 +
+                        100 * RATE2 +
+                        (units - 200) * RATE3;
+
+    total = energy_charge + FIXED_CHARGE;
+
+    printf("\n--- Electricity Bill ---\n");
+    printf("Household Number: %d\n", household_no);
+    printf("Units Consumed: %d\n", units);
+
+    printf("Energy Charge: Rs %ld.%02ld\n",
+           energy_charge / 100, energy_charge % 100);
+
+    printf("Fixed Charge: Rs 50.00\n");
+
+    printf("Total Bill: Rs %ld.%02ld\n",
+           total / 100, total % 100);
+
+    return 0;
+}
